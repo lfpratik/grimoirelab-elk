@@ -118,6 +118,9 @@
         },
         "uuid": {
           "type": "keyword"
+        },
+        "total_lines_of_code": {
+          "type": "long"
         }
       }
     }
