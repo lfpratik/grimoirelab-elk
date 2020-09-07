@@ -283,6 +283,7 @@ class GitEnrich(Enrich):
         eitem["lines_added"] = lines_added
         eitem["lines_removed"] = lines_removed
         eitem["lines_changed"] = lines_added + lines_removed
+        eitem["total_lines_of_code"] = commit.get("total_lines_of_code", 0)
 
         # author_name and author_domain are added always
         identity = self.get_sh_identity(commit["Author"])
