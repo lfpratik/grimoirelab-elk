@@ -4,3 +4,7 @@ utils/cache*
 .pydevproject
 .settings
 __pycache__
+.idea
+venv
+tests/.coverage
+tests/report.txt
