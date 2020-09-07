@@ -20,7 +20,7 @@
         "type": "keyword"
       },
       "author_multi_org_names": {
-          "type": "keyword"
+        "type": "keyword"
       },
       "author_user_name": {
         "type": "keyword"
@@ -117,6 +117,9 @@
       },
       "uuid": {
         "type": "keyword"
+      },
+      "total_lines_of_code": {
+        "type": "long"
       }
     }
   }
