@@ -120,6 +120,9 @@
       },
       "total_lines_of_code": {
         "type": "long"
+      },
+      "program_language_summary": {
+          "type": "list"
       }
     }
   }
