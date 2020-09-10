@@ -122,7 +122,7 @@
         "type": "long"
       },
       "program_language_summary": {
-          "type": "list"
+        "type": "list"
       }
     }
   }
