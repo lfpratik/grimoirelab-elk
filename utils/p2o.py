@@ -44,8 +44,25 @@ if __name__ == '__main__':
     clean = args.no_incremental
     if args.fetch_cache:
         clean = True
-
     try:
+        def read_backend_url_idx(backend_args_lst):
+            cnt = -1
+            for i, item in enumerate(backend_args_lst):
+                if 'http' in item:
+                    cnt = i
+                    break
+            return cnt
+
+        arg_backend = getattr(args, 'backend', None)
+        if arg_backend.lower() == 'git' and len(args.backend_args) > 0:
+            from grimoire_elk.utils import GitOps   # noqa
+            idx = read_backend_url_idx(args.backend_args)
+            if idx > -1:
+                git_ops = GitOps(args.backend_args[idx])
+                git_ops._load_cache()
+                git_ops.load()
+                git_ops.get_stats()
+
         if args.backend:
             # Configure elastic bulk size and scrolling
             if args.bulk_size:
