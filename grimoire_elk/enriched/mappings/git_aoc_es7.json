@@ -123,6 +123,9 @@
       },
       "program_language_summary": {
         "type": "list"
+      },
+      "commit_url": {
+        "type": "keyword"
       }
     }
   }
