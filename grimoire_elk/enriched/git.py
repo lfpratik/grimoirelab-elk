@@ -190,6 +190,65 @@ class GitEnrich(Enrich):
     def get_project_repository(self, eitem):
         return eitem['origin']
 
+    @staticmethod
+    def get_commit_url(eitem):
+        from urllib.parse import urlparse  # noqa
+
+        def _build_github_commit_url(url, commit_id):
+            return '{0}/commit/{1}'.format(url, commit_id)
+
+        def _build_gitlab_commit_url(url, commit_id):
+            return '{0}/-/commit/{1}'.format(url, commit_id)
+
+        def _build_bitbucket_commit_url(url, commit_id):
+            return '{0}/commits/{1}'.format(url, commit_id)
+
+        def _build_gerrit_commit_url(url, commit_id):
+            parser = urlparse(url)
+            base_url = '{0}://{1}'.format(parser.scheme, parser.netloc)
+            virtual_url = 'gitweb'
+            if '/gerrit/' in parser.path:
+                virtual_url = '{0}gitweb'.format('gerrit/')
+            elif '/r/' in parser.path:
+                virtual_url = '{0}gitweb'.format('r/')
+            project = parser.path.replace('/gerrit/', '').replace('/r/',
+                                                                  '').lstrip(
+                '/')
+            project_url = 'p={0}.git'.format(project)
+            type_url = 'a=commit'
+            hash_url = 'h={0}'.format(commit_id)
+
+            return '{0}/{1}?{2};{3};{4}'.format(base_url, virtual_url,
+                                                project_url, type_url, hash_url)
+
+        def _build_git_commit_url(url, commit_id):
+            return '{0}/commit/?id={1}'.format(url, commit_id)
+
+        github = 'github.com'
+        gitlab = 'gitlab.com'
+        bitbucket = 'bitbucket.org'
+        git = 'git.'
+        gerrit = 'gerrit'
+        gerrit_old = 'review'
+
+        commit_url = None
+        origin = eitem.get('origin')
+        hash = eitem.get('hash')
+
+        if github in origin:
+            return _build_github_commit_url(origin, hash)
+        elif gitlab in origin:
+            return _build_gitlab_commit_url(origin, hash)
+        elif bitbucket in origin:
+            return _build_bitbucket_commit_url(origin, hash)
+        elif gerrit_old in origin or gerrit in origin:
+            return _build_gerrit_commit_url(origin, hash)
+        elif git in origin and (
+                gerrit_old not in origin or gerrit not in origin):
+            return _build_git_commit_url(origin, hash)
+
+        return commit_url
+
     @metadata
     def get_rich_item(self, item):
 
@@ -285,6 +344,7 @@ class GitEnrich(Enrich):
         eitem["lines_changed"] = lines_added + lines_removed
         eitem["total_lines_of_code"] = commit.get("total_lines_of_code", 0)
         eitem["program_language_summary"] = commit.get("program_language_summary", [])
+        eitem['commit_url'] = self.get_commit_url(eitem)
 
         # author_name and author_domain are added always
         identity = self.get_sh_identity(commit["Author"])
