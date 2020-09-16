@@ -54,3 +54,4 @@ utc_commit_weekday,long,true,"Day of the week when the committer made the commit
 utc_commit_hour,date,true,"Hour of the day when the committer made the commit in UTC."
 uuid,keyword,true,"Perceval UUID."
 time_to_commit_hours,long,true,"Time in hours from author date (when commit was originally created) to commit date (when the commit was made to the repository)."
+commit_url,keyword,true,"Commit URL."
