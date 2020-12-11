@@ -489,7 +489,6 @@ class GitHubEnrich(Enrich):
                 'assignee_location': data.get('location', None),
                 'assignee_geolocation': data.get('geolocation', None)
             })
-        logger.debug('assignees_data', rich_pr['assignees_data'])
 
         rich_pr['id'] = pull_request['id']
         rich_pr['id_in_repo'] = pull_request['html_url'].split("/")[-1]
