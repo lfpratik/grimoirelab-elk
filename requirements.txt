@@ -11,8 +11,7 @@ statsmodels >= 0.9.0
 -e git+https://github.com/chaoss/grimoirelab-toolkit/#egg=grimoirelab-toolkit
 -e git+https://github.com/chaoss/grimoirelab-cereslib/#egg=grimoirelab-cereslib
 -e git+https://github.com/chaoss/grimoirelab-graal/#egg=grimoirelab-graal
-# -e git+https://github.com/chaoss/grimoirelab-perceval/#egg=grimoirelab-perceval
-file:///repos/grimoirelab-perceval
+-e git+https://github.com/chaoss/grimoirelab-perceval/#egg=grimoirelab-perceval
 -e git+https://github.com/chaoss/grimoirelab-perceval-mozilla/#egg=grimoirelab-perceval-mozilla
 -e git+https://github.com/chaoss/grimoirelab-perceval-opnfv/#egg=grimoirelab-perceval-opnfv
 -e git+https://github.com/chaoss/grimoirelab-perceval-puppet/#egg=grimoirelab-perceval-puppet
