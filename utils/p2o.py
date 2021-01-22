@@ -59,9 +59,7 @@ if __name__ == '__main__':
             idx = read_backend_url_idx(args.backend_args)
             if idx > -1:
                 git_ops = GitOps(args.backend_args[idx])
-                git_ops._load_cache()
                 git_ops.load()
-                git_ops.get_stats()
 
         if args.backend:
             # Configure elastic bulk size and scrolling
