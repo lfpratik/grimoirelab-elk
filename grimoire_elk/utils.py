@@ -478,7 +478,7 @@ class GitOps:
         if org_name in sanitize_path:
             sanitize_path = sanitize_path.replace('{0}/'.format(self.org_name), '')
         if not self.follow_hierarchy:
-            return sanitize_path.replace('/', '-').replace('_', '-')
+            return sanitize_path.replace('/', '-').replace('_', '-').replace('/.', '').replace('.', '')
         return sanitize_path
 
     def _build_org_name(self, path, git_source):
@@ -489,7 +489,11 @@ class GitOps:
 
     @staticmethod
     def __get_processed_uri(uri):
-        return uri.lstrip('/').replace('.git', '')
+        removal = '.git'
+        reverse_removal = removal[::-1]
+        replacement = ''
+        reverse_replacement = replacement[::-1]
+        return uri[::-1].replace(reverse_removal, reverse_replacement, 1)[::-1]
 
     def __get_base_path(self):
         return os.path.expanduser(self.base_path)
@@ -852,11 +856,14 @@ class GitOps:
             self.uptodate = self._pull()
 
     def get_stats(self):
-        try:
-            # Get the cache loc and pls for fallback
-            cache_loc = self._get_cache_item(self.repo_name, 'loc')
-            cache_pls = self._get_cache_item(self.repo_name, 'pls')
+        loc = 0
+        pls = list()
 
+        # Get the cache loc and pls for fallback
+        cache_loc = self._get_cache_item(self.repo_name, 'loc')
+        cache_pls = self._get_cache_item(self.repo_name, 'pls')
+
+        try:
             # Calculate the loc from source
             result = self._stats(self.repo_path)
 
@@ -864,16 +871,16 @@ class GitOps:
             loc = self._loc(result)
             pls = self._pls(result)
 
-            logger.debug("Cache loc value %s", cache_loc)
-            logger.debug("New loc value %s", loc)
+            logger.debug('Cache loc value %s', cache_loc)
+            logger.debug('New loc value %s', loc)
 
             if loc == 0:
-                logger.debug("LOC Value set from old cache")
+                logger.debug('LOC value set from old cache')
                 # Set cache_loc value if new extracted one will be the zero
                 loc = cache_loc
                 pls = cache_pls
             else:
-                logger.debug("Updating LOC value in cache")
+                logger.debug('Updating LOC value in cache')
                 # update the cache with new value and timestamp
                 self._update_cache_item(project_name=self.repo_name,
                                         key='loc',
@@ -891,7 +898,11 @@ class GitOps:
                                       path=self.__get_cache_path(),
                                       filename=self.cache_file_name)
         except Exception as se:
-            logger.error("LOC error %s", str(se))
+            logger.error('LOC error %s', str(se))
+            logger.debug('LOC value set from old cache')
+            # Set cache_loc value if cloc fails
+            loc = cache_loc
+            pls = cache_pls
         finally:
-            logger.debug("Final LOC value %s", loc)
+            logger.debug('Final LOC value %s', loc)
             return loc, pls
