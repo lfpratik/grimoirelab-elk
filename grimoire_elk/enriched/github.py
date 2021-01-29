@@ -484,7 +484,7 @@ class GitHubEnrich(Enrich):
             rich_pr['assignees_data'].append({
                 'assignee_login': data.get('login', None),
                 'assignee_name': data.get('name', None),
-                'assignee_domain': self.get_email_domain(data['email']) if data['email'] else None,
+                'assignee_domain': self.get_email_domain(data['email']) if data.get('email') else None,
                 'assignee_org': data.get('company', None),
                 'assignee_location': data.get('location', None),
                 'assignee_geolocation': data.get('geolocation', None)
