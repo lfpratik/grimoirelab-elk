@@ -36,7 +36,7 @@ from grimoirelab_toolkit.datetime import (datetime_utcnow,
 
 from elasticsearch import Elasticsearch as ES, RequestsHttpConnection
 
-from .utils import get_time_diff_days, get_github_profile_details
+from .utils import get_time_diff_days
 
 from .enrich import Enrich, metadata, anonymize_url
 from ..elastic_mapping import Mapping as BaseMapping
