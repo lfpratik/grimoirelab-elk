@@ -477,17 +477,20 @@ class GitHubEnrich(Enrich):
             rich_pr['merge_author_geolocation'] = None
 
         rich_pr['assignees_data'] = list()
-        assignees = pull_request.get('assignees', list())
+        assignees = pull_request.get('assignees_data', list())
         for assignee in assignees:
-            profile_url = assignee.get('url', '')
-            data = get_github_profile_details(profile_url)
             rich_pr['assignees_data'].append({
-                'assignee_login': data.get('login', None),
-                'assignee_name': data.get('name', None),
-                'assignee_domain': self.get_email_domain(data['email']) if data.get('email') else None,
-                'assignee_org': data.get('company', None),
-                'assignee_location': data.get('location', None),
-                'assignee_geolocation': data.get('geolocation', None)
+                'assignee_login': assignee.get('login', None),
+                'assignee_id': assignee.get('id', None),
+                'assignee_avatar_url': assignee.get('avatar_url', None),
+                'assignee_url': assignee.get('url', None),
+                'assignee_name': assignee.get('name', None),
+                'assignee_company': assignee.get('company', None),
+                'assignee_location': assignee.get('location', None),
+                'assignee_email': assignee.get('email', None),
+                'assignee_domain': self.get_email_domain(assignee['email']) if assignee.get('email') else None,
+                'assignee_org': [x['login'] for x in assignee.get('organizations', [])],
+                'assignee_geolocation': assignee.get('geolocation', None)
             })
 
         rich_pr['id'] = pull_request['id']
