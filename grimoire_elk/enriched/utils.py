@@ -234,23 +234,3 @@ def fix_field_date(date_value):
         field_date = field_date.replace(tzinfo=None)
 
     return field_date.isoformat()
-
-
-def get_github_profile_details(url):
-    data = {}
-    try:
-        if url is not None and len(url) > 0:
-            response = requests.get(url)
-            response.raise_for_status()
-            data = response.json()
-    except requests.exceptions.HTTPError as e:
-        if response.status_code == 429:
-            logger.error("Github rate limit issue", str(e))
-        elif response.status_code == 404:
-            logger.error("Profile not found", str(e))
-        else:
-            logger.error("Github profile call error", str(e))
-    except requests.exceptions.ConnectionError as e:
-        logger.error("Connection error", str(e))
-    finally:
-        return data
