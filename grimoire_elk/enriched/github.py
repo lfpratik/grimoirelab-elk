@@ -493,9 +493,10 @@ class GitHubEnrich(Enrich):
                 'assignee_geolocation': assignee.get('geolocation', None)
             })
 
+        rich_pr['reviewer_data'] = list()
         reviews_data = pull_request.get('reviews_data', list())
-        for idx, review in enumerate(reviews_data):
-            rich_pr['reviewer_{0}'.format(idx + 1)] = {
+        for review in reviews_data:
+            rich_pr['reviewer_data'].append({
                 'review_author_association': review.get('author_association', None),
                 'review_comment': review.get('body', None),
                 'review_commit_id': review.get('commit_id', None),
@@ -511,7 +512,7 @@ class GitHubEnrich(Enrich):
                 'review_user_name': review.get('user_data', {}).get('name', None),
                 'review_user_company': review.get('user_data', {}).get('company', None),
                 'review_user_organizations': review.get('user_data', {}).get('organizations', None),
-            }
+            })
 
         rich_pr['id'] = pull_request['id']
         rich_pr['id_in_repo'] = pull_request['html_url'].split("/")[-1]

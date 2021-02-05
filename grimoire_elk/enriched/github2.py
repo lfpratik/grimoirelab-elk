@@ -496,6 +496,27 @@ class GitHubEnrich2(Enrich):
                 'assignee_geolocation': assignee.get('geolocation', None)
             })
 
+        rich_pr['reviewer_data'] = list()
+        reviews_data = pull_request.get('reviews_data', list())
+        for review in reviews_data:
+            rich_pr['reviewer_data'].append({
+                'review_author_association': review.get('author_association', None),
+                'review_comment': review.get('body', None),
+                'review_commit_id': review.get('commit_id', None),
+                'review_state': review.get('state', None),
+                'review_submitted_at': review.get('submitted_at', None),
+                'review_html_url': review.get('html_url', None),
+                'review_user_login': review.get('user_data', {}).get('login'),
+                'review_user_id': review.get('user_data', {}).get('id', None),
+                'review_user_avatar_url': review.get('user_data', {}).get('avatar_url', None),
+                'review_user_html_url': review.get('user_data', {}).get('html_url', None),
+                'review_user_url': review.get('user_data', {}).get('url', None),
+                'review_user_location': review.get('user_data', {}).get('location', None),
+                'review_user_name': review.get('user_data', {}).get('name', None),
+                'review_user_company': review.get('user_data', {}).get('company', None),
+                'review_user_organizations': review.get('user_data', {}).get('organizations', None),
+            })
+
         rich_pr['id'] = pull_request['id']
         rich_pr['pull_id'] = pull_request['id']
         rich_pr['pull_id_in_repo'] = pull_request['html_url'].split("/")[-1]
