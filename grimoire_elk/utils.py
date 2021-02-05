@@ -579,9 +579,9 @@ class GitOps:
         return sanitized_output
 
     @staticmethod
-    def _exec(cmd, cwd=None, env=None, ignored_error_codes=None,
-              encoding='utf-8'):
-        """Run a command.
+    def _exec(cmd, cwd=None, env=None, ignored_error_codes=None, encoding='utf-8'):
+        """
+        Run a command.
 
         Execute `cmd` command in the directory set by `cwd`. Environment
         variables can be set using the `env` dictionary. The output
@@ -598,7 +598,7 @@ class GitOps:
         if ignored_error_codes is None:
             ignored_error_codes = []
 
-        logger.debug("Running command %s (cwd: %s, env: %s)",
+        logger.debug('Running command %s (cwd: %s, env: %s)',
                      ' '.join(cmd), cwd, str(env))
 
         try:
@@ -629,14 +629,14 @@ class GitOps:
 
         return ''.encode('utf-8')
 
-    def _pls(self, result):
+    def _pls(self, result, force=False):
         """
-            Get the programing language summary
+        Get the programing language summary
         """
-        def extract_program_language_summary(value):
+        def extract_program_language_summary(value, force=False):
             stats = list()
             lan_smry_lst = value.split('\n')
-            if 'SUM:' in value and len(lan_smry_lst) > 0:
+            if len(lan_smry_lst) > 0 and ('SUM:' in value or force):
                 for smry in lan_smry_lst[::-1]:
                     if smry.startswith('---') or len(smry) == 0:
                         continue
@@ -654,21 +654,22 @@ class GitOps:
 
             return stats
 
-        return extract_program_language_summary(self.sanitize_os_output(result))
+        return extract_program_language_summary(self.sanitize_os_output(result), force)
 
-    def _loc(self, result):
+    def _loc(self, result, force=False):
         """
         Get the total lines of code from the default branch
         """
-        def extract_lines_of_code(value):
-            if len(value) > 0 and 'SUM:' in value:
+        def extract_lines_of_code(value, force=False):
+            if len(value) > 0 and ('SUM:' in value or force):
                 return int((value.split('\n')[-3]).split(' ')[-1])
             return 0
 
-        return extract_lines_of_code(self.sanitize_os_output(result))
+        return extract_lines_of_code(self.sanitize_os_output(result), force)
 
     def _clone(self):
-        """Clone a Git repository.
+        """
+        Clone a Git repository.
 
         Make a bare copy of the repository stored in `uri` into `dirpath`.
         The repository would be either local or remote.
@@ -689,10 +690,10 @@ class GitOps:
 
         try:
             self._exec(cmd, env=env)
-            logger.debug("Git %s repository cloned into %s",
+            logger.debug('Git %s repository cloned into %s',
                          self.git_url, self.repo_path)
         except (RuntimeError, Exception) as cloe:
-            logger.error("Git clone error %s ", str(cloe))
+            logger.error('Git clone error %s ', str(cloe))
 
     def _clean(self, force=False):
         cmd = ['rm', '-rf', self.repo_path]
@@ -706,11 +707,11 @@ class GitOps:
             size = self._get_size_format(size_bytes)
             if self._should_be_delete(size) or force:
                 self._exec(cmd, env=env)
-                logger.debug("Git %s repository clean", self.repo_path)
+                logger.debug('Git %s repository clean', self.repo_path)
             else:
-                logger.debug("Git %s repository clean skip", self.repo_path)
+                logger.debug('Git %s repository clean skip', self.repo_path)
         except (RuntimeError, Exception) as cle:
-            logger.error("Git clone error %s", str(cle))
+            logger.error('Git clone error %s', str(cle))
 
     def _pull(self):
         os.chdir(os.path.abspath(self.repo_path))
@@ -728,20 +729,20 @@ class GitOps:
             result = self._exec(cmd_short, env=env)
             result = self.sanitize_os_output(result)
             branch = result.replace('origin/', '').strip()
-            logger.debug("Git %s repository active branch is: %s",
+            logger.debug('Git %s repository active branch is: %s',
                          self.repo_path, branch)
         except (RuntimeError, Exception) as be:
-            logger.error("Git find active branch error %s", str(be))
+            logger.error('Git find active branch error %s', str(be))
 
         try:
             if branch:
                 cmd = ['git', 'checkout', branch]
                 self._exec(cmd, env=env)
-                logger.debug("Git %s repository "
-                             "checkout with following branch %s",
+                logger.debug('Git %s repository '
+                             'checkout with following branch %s',
                              self.repo_path, branch)
         except (RuntimeError, Exception) as gce:
-            logger.error("Git checkout error %s", str(gce))
+            logger.error('Git checkout error %s', str(gce))
 
         try:
             if branch:
@@ -750,14 +751,14 @@ class GitOps:
                 result = self.sanitize_os_output(result)
                 if len(result) >= 18 and 'Already up to date.' in result:
                     status = True
-                logger.debug("Git %s repository pull updated code",
+                logger.debug('Git %s repository pull updated code',
                              self.repo_path)
             else:
-                logger.debug("Git repository active branch missing")
-                logger.debug("Git %s repository pull request skip ",
+                logger.debug('Git repository active branch missing')
+                logger.debug('Git %s repository pull request skip ',
                              self.repo_path)
         except (RuntimeError, Exception) as pe:
-            logger.error("Git pull error %s", str(pe))
+            logger.error('Git pull error %s', str(pe))
 
         return status
 
@@ -774,15 +775,15 @@ class GitOps:
 
         try:
             self._exec(cmd_fetch, env=env)
-            logger.debug("Git %s fetch updated code", self.repo_path)
+            logger.debug('Git %s fetch updated code', self.repo_path)
         except (RuntimeError, Exception) as fe:
-            logger.error("Git fetch purge error %s", str(fe))
+            logger.error('Git fetch purge error %s', str(fe))
 
         try:
             self._exec(cmd_fetch_p, env=env)
-            logger.debug("Git %s fetch purge code", self.repo_path)
+            logger.debug('Git %s fetch purge code', self.repo_path)
         except (RuntimeError, Exception) as fpe:
-            logger.error("Git fetch purge error %s", str(fpe))
+            logger.error('Git fetch purge error %s', str(fpe))
 
     def _build_empty_stats_data(self):
         stats_data = {
@@ -801,7 +802,7 @@ class GitOps:
                 f.write(json.dumps(data, indent=4))
             f.close()
         except Exception as je:
-            logger.error("cache file write error %s", str(je))
+            logger.error('cache file write error %s', str(je))
         finally:
             pass
 
@@ -814,7 +815,7 @@ class GitOps:
             f.close()
             return json.loads(data)
         except Exception as je:
-            logger.error("cache file write error %s", str(je))
+            logger.error('cache file write error %s', str(je))
             error = True
         finally:
             if error:
@@ -856,8 +857,8 @@ class GitOps:
         if self.repo_path and not os.path.exists(self.repo_path):
             self._clone()
         else:
-            self._fetch()
             self.uptodate = self._pull()
+            self._fetch()
 
     def get_stats(self):
         loc = 0
@@ -874,6 +875,9 @@ class GitOps:
             # extract new the loc and pls
             loc = self._loc(result)
             pls = self._pls(result)
+            if loc == 0 and len(pls) == 0:
+                loc = self._loc(result, force=True)
+                pls = self._pls(result, force=True)
 
             logger.debug('Cache loc value %s', cache_loc)
             logger.debug('New loc value %s', loc)
