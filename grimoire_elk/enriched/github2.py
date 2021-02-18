@@ -516,7 +516,7 @@ class GitHubEnrich2(Enrich):
                 'review_user_location': review.get('user_data', {}).get('location', None),
                 'review_user_name': review.get('user_data', {}).get('name', None),
                 'review_user_company': review.get('user_data', {}).get('company', None),
-                'review_user_organizations': review.get('user_data', {}).get('organizations', None),
+                'review_user_organizations': [x['login'] for x in review.get('user_data', {}).get('organizations', [])],
             })
 
         rich_pr['id'] = pull_request['id']
