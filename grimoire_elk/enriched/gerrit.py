@@ -299,6 +299,7 @@ class GerritEnrich(Enrich):
             ecomment['url'] = eitem['url']
             ecomment['summary'] = eitem['summary']
             ecomment['repository'] = eitem['repository']
+            ecomment['repo_name'] = eitem['repository']
             ecomment['branch'] = eitem['branch']
             ecomment['changeset_number'] = eitem['changeset_number']
 
@@ -371,6 +372,7 @@ class GerritEnrich(Enrich):
             epatchset['url'] = eitem['url']
             epatchset['summary'] = eitem['summary']
             epatchset['repository'] = eitem['repository']
+            epatchset['repo_name'] = eitem['repository']
             epatchset['branch'] = eitem['branch']
             epatchset['changeset_number'] = eitem['changeset_number']
             epatchset['changeset_status'] = eitem['changeset_status']
@@ -457,6 +459,7 @@ class GerritEnrich(Enrich):
             eapproval['url'] = epatchset['url']
             eapproval['summary'] = epatchset['summary']
             eapproval['repository'] = epatchset['repository']
+            eapproval['repo_name'] = epatchset['repository']
             eapproval['branch'] = epatchset['branch']
             eapproval['changeset_number'] = epatchset['changeset_number']
             eapproval['changeset_status'] = epatchset['changeset_status']

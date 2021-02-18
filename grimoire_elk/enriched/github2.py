@@ -264,6 +264,7 @@ class GitHubEnrich2(Enrich):
             ecomment['issue_pull_request'] = eitem['issue_pull_request']
             ecomment['github_repo'] = eitem['github_repo']
             ecomment['repository'] = eitem['repository']
+            ecomment['repo_name'] = eitem['repository']
             ecomment['item_type'] = COMMENT_TYPE
             ecomment['sub_type'] = ISSUE_COMMENT_TYPE
 
@@ -337,6 +338,7 @@ class GitHubEnrich2(Enrich):
             ecomment['pull_state'] = eitem['pull_state']
             ecomment['github_repo'] = eitem['github_repo']
             ecomment['repository'] = eitem['repository']
+            ecomment['repo_name'] = eitem['repository']
             ecomment['item_type'] = COMMENT_TYPE
             ecomment['sub_type'] = REVIEW_COMMENT_TYPE
 
@@ -522,6 +524,7 @@ class GitHubEnrich2(Enrich):
         rich_pr['pull_id_in_repo'] = pull_request['html_url'].split("/")[-1]
         rich_pr['issue_id_in_repo'] = pull_request['html_url'].split("/")[-1]
         rich_pr['repository'] = self.get_project_repository(rich_pr)
+        rich_pr['repo_name'] = self.get_project_repository(rich_pr)
         rich_pr['issue_title'] = pull_request['title']
         rich_pr['issue_title_analyzed'] = pull_request['title']
         rich_pr['pull_state'] = pull_request['state']
@@ -630,6 +633,7 @@ class GitHubEnrich2(Enrich):
         rich_issue['issue_id'] = issue['id']
         rich_issue['issue_id_in_repo'] = issue['html_url'].split("/")[-1]
         rich_issue['repository'] = self.get_project_repository(rich_issue)
+        rich_issue['repo_name'] = self.get_project_repository(rich_issue)
         rich_issue['issue_title'] = issue['title']
         rich_issue['issue_title_analyzed'] = issue['title']
         rich_issue['issue_state'] = issue['state']

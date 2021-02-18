@@ -171,6 +171,7 @@ class GitHubQLEnrich(Enrich):
         rich_event['created_at'] = event['createdAt']
         rich_event['actor_username'] = actor['login'] if actor else None
         rich_event['repository'] = self.get_project_repository(rich_event)
+        rich_event['repo_name'] = self.get_project_repository(rich_event)
         rich_event['pull_request'] = True
         rich_event['item_type'] = 'pull request'
         if 'head' not in issue.keys() and 'pull_request' not in issue.keys():
