@@ -788,16 +788,16 @@ class Enrich(ElasticItems):
             if email:
                 eitem_sh[rol + "_domain"] = self.get_email_domain(email)
 
-            eitem_sh[rol + "_gender"] = profile.get('gender', self.unknown_gender)
-            eitem_sh[rol + "_gender_acc"] = profile.get('gender_acc', 0)
+            # eitem_sh[rol + "_gender"] = profile.get('gender', self.unknown_gender)
+            # eitem_sh[rol + "_gender_acc"] = profile.get('gender_acc', 0)
 
         elif not profile and sh_id:
             logger.warning("Can't find SH identity profile: {}".format(sh_id))
 
         # Ensure we always write gender fields
-        if not eitem_sh.get(rol + "_gender"):
-            eitem_sh[rol + "_gender"] = self.unknown_gender
-            eitem_sh[rol + "_gender_acc"] = 0
+        # if not eitem_sh.get(rol + "_gender"):
+            # eitem_sh[rol + "_gender"] = self.unknown_gender
+            # eitem_sh[rol + "_gender_acc"] = 0
 
         eitem_sh[rol + "_org_name"] = self.get_enrollment(eitem_sh[rol + "_uuid"], item_date)
         eitem_sh[rol + "_bot"] = self.is_bot(eitem_sh[rol + '_uuid'])
@@ -812,8 +812,8 @@ class Enrich(ElasticItems):
         if u.profile:
             profile['name'] = u.profile.name
             profile['email'] = u.profile.email
-            profile['gender'] = u.profile.gender
-            profile['gender_acc'] = u.profile.gender_acc
+            # profile['gender'] = u.profile.gender
+            # profile['gender_acc'] = u.profile.gender_acc
 
         return profile
 
