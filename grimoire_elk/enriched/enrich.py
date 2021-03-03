@@ -720,8 +720,8 @@ class Enrich(ElasticItems):
             rol + "_name": empty_field,
             rol + "_user_name": empty_field,
             rol + "_domain": empty_field,
-            rol + "_gender": empty_field,
-            rol + "_gender_acc": None,
+            # rol + "_gender": empty_field,
+            # rol + "_gender_acc": None,
             rol + "_org_name": empty_field,
             rol + "_bot": False,
             rol + MULTI_ORG_NAMES: [empty_field]
@@ -746,8 +746,8 @@ class Enrich(ElasticItems):
             rol + "_name": name,
             rol + "_user_name": username,
             rol + "_domain": self.get_identity_domain(identity),
-            rol + "_gender": self.unknown_gender,
-            rol + "_gender_acc": None,
+            # rol + "_gender": self.unknown_gender,
+            # rol + "_gender_acc": None,
             rol + "_org_name": self.unaffiliated_group,
             rol + "_bot": False
         }

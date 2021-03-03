@@ -348,8 +348,8 @@ class JiraEnrich(Enrich):
             eitem['author_name'] = eitem[author_type + '_name']
             eitem['author_user_name'] = eitem[author_type + '_user_name']
             eitem['author_domain'] = eitem[author_type + '_domain']
-            eitem['author_gender'] = eitem[author_type + '_gender']
-            eitem['author_gender_acc'] = eitem[author_type + '_gender_acc']
+            # eitem['author_gender'] = eitem[author_type + '_gender']
+            # eitem['author_gender_acc'] = eitem[author_type + '_gender_acc']
             eitem['author_org_name'] = eitem[author_type + '_org_name']
             eitem['author_bot'] = eitem[author_type + '_bot']
 

@@ -331,8 +331,8 @@ class GerritEnrich(Enrich):
                     ecomment['author_name'] = ecomment['reviewer_name']
                     ecomment['author_user_name'] = ecomment['reviewer_user_name']
                     ecomment['author_domain'] = ecomment['reviewer_domain']
-                    ecomment['author_gender'] = ecomment['reviewer_gender']
-                    ecomment['author_gender_acc'] = ecomment['reviewer_gender_acc']
+                    # ecomment['author_gender'] = ecomment['reviewer_gender']
+                    # ecomment['author_gender_acc'] = ecomment['reviewer_gender_acc']
                     ecomment['author_org_name'] = ecomment['reviewer_org_name']
                     ecomment['author_bot'] = ecomment['reviewer_bot']
 
@@ -501,8 +501,8 @@ class GerritEnrich(Enrich):
                 eapproval['author_name'] = eapproval.get('by_name', None)
                 eapproval['author_user_name'] = eapproval.get('by_name', None)
                 eapproval['author_domain'] = eapproval.get('by_domain', None)
-                eapproval['author_gender'] = eapproval.get('by_gender', None)
-                eapproval['author_gender_acc'] = eapproval.get('by_gender_acc', None)
+                # eapproval['author_gender'] = eapproval.get('by_gender', None)
+                # eapproval['author_gender_acc'] = eapproval.get('by_gender_acc', None)
                 eapproval['author_org_name'] = eapproval.get('by_org_name', None)
                 eapproval['author_bot'] = eapproval.get('by_bot', None)
 
@@ -535,8 +535,8 @@ class GerritEnrich(Enrich):
         target_eitem['changeset_author_name'] = source_eitem.get(rol + '_name', None)
         target_eitem['changeset_author_user_name'] = source_eitem.get(rol + '_user_name', None)
         target_eitem['changeset_author_domain'] = source_eitem.get(rol + '_domain', None)
-        target_eitem['changeset_author_gender'] = source_eitem.get(rol + '_gender', None)
-        target_eitem['changeset_author_gender_acc'] = source_eitem.get(rol + '_gender_acc', None)
+        # target_eitem['changeset_author_gender'] = source_eitem.get(rol + '_gender', None)
+        # target_eitem['changeset_author_gender_acc'] = source_eitem.get(rol + '_gender_acc', None)
         target_eitem['changeset_author_org_name'] = source_eitem.get(rol + '_org_name', None)
         target_eitem['changeset_author_bot'] = source_eitem.get(rol + '_bot', None)
 
